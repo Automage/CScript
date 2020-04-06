@@ -22,6 +22,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
   const char INCLUDE_REGEX[] = "^#include .*$";
   //const char FUNCTION_REGEX[] = "^\\w+ \\w+\\((( *\\w+ \\w+)?(, *\\w+ (\\w|\\[|\\])+)*)?\\) *\\{?$";
   //const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
+  // TODO: MAKE MACOS COMPATIBLE
   const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
   printf("reg: %s\n", FUNCTION_REGEX);
   // Regex intialization
@@ -40,7 +41,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
 
   // Function regex
   regex_t function_re;
-  if (regcomp(&function_re, FUNCTION_REGEX, REG_ENHANCED | REG_NOSUB) == -1) {
+  if (regcomp(&function_re, FUNCTION_REGEX, REG_EXTENDED | REG_NOSUB) == -1) {
     return -1;
   }
 
