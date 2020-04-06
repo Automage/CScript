@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
-    fprintf(stderr, "Please specify a c-script!");
+    fprintf(stderr, "Please specify a c-script!\n");
     return -1;
   }
 
@@ -15,20 +15,24 @@ int main(int argc, char *argv[]) {
 
   FILE *script_fp = fopen(argv[1], "r");
   if (script_fp == NULL) {
-    fprintf(stderr, "Unable to open file");
+    fprintf(stderr, "Unable to open file\n");
     return -1;
   }
 
   // Parse script
 
+  struct script_layout script;
+  layout_init(&script);
+
   parse_script(&script, script_fp);
 
   // Generate source file
-
+  /*
   FILE *out_fp = fopen("tmp.c", "w");
   if (out_fp == NULL) {
-    fprintf(stderr, "Unable to create file");
+    fprintf(stderr, "Unable to create file\n");
     return -1;
   }
   generate_source(out_fp);
+  */
 }

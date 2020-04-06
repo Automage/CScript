@@ -51,6 +51,7 @@ int add_define(struct script_layout *script, char *content) {
 
   script->defines[script->n_defines] = content;
   script->n_defines++;
+  return 1;
 }
 
 int add_include(struct script_layout *script, char *content) {
@@ -63,6 +64,7 @@ int add_include(struct script_layout *script, char *content) {
 
   script->includes[script->n_includes] = content;
   script->n_includes++;
+  return 1;
 }
 
 int add_function(struct script_layout *script, char *content) {
@@ -76,6 +78,7 @@ int add_function(struct script_layout *script, char *content) {
 
   script->functions[script->n_functions] = content;
   script->n_functions++;
+  return 1;
 }
 
 /*
@@ -85,5 +88,5 @@ int add_function(struct script_layout *script, char *content) {
  * C code to be compiled, as infered from the cscript.
  */
 int generate_source(struct script_layout *script, FILE *out) {
-  return;
+  return 1;
 }
