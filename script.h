@@ -22,10 +22,10 @@ struct script_layout {
 };
 
 void layout_init(struct script_layout *);
-void append_main(struct script_layout, char *);
-int add_define(struct script_layout, char *);
-int add_include(struct script_layout, char *);
-int add_function(struct script_layout, char *);
-int generate_source(FILE *);
+void append_main(struct script_layout *, char *);
+int add_define(struct script_layout *, char *);
+int add_include(struct script_layout *, char *);
+int add_function(struct script_layout *, char *);
+int generate_source(struct script_layout *, FILE *);
 
 #endif

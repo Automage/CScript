@@ -84,6 +84,6 @@ int add_function(struct script_layout *script, char *content) {
  * Write to the file specified by argument the final 
  * C code to be compiled, as infered from the cscript.
  */
-int generate_source(FILE *out) {
+int generate_source(struct script_layout *script, FILE *out) {
   return;
 }
