@@ -20,11 +20,10 @@ int parse_script(struct script_layout *script, FILE *in_file) {
 
   const char DEFINE_REGEX[] = "^#define .*$";
   const char INCLUDE_REGEX[] = "^#include .*$";
-  const char FUNCTION_REGEX[] = "^\\w*$";
   //const char FUNCTION_REGEX[] = "^\\w+ \\w+\\((( *\\w+ \\w+)?(, *\\w+ (\\w|\\[|\\])+)*)?\\) *\\{?$";
   //const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
+  const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
   printf("reg: %s\n", FUNCTION_REGEX);
-
   // Regex intialization
 
   // Define regex
@@ -62,7 +61,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
     }
 
     // Match functions
-    if (regexec(&function_re, line, 0, NULL, 0) == 0) {
+    if (regexec(&function_re, line, 1, NULL, 0) == 0) {
       printf("-----FUNC detected\n");
     }
   }
