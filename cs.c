@@ -13,11 +13,17 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  // Open script file
+  // Open script file and tmp file
 
   FILE *script_fp = fopen(argv[1], "r");
   if (script_fp == NULL) {
     fprintf(stderr, "Unable to open file\n");
+    return -1;
+  }
+
+  FILE *out_fp = fopen("cscript.c", "w");
+  if (out_fp == NULL) {
+    fprintf(stderr, "Unable to create temp file\n");
     return -1;
   }
 
@@ -33,17 +39,13 @@ int main(int argc, char *argv[]) {
 
   parse_script(script, script_fp);
 
+  // Debug printing
+
   print_script(script);
 
   // Generate source file
-  /*
-  FILE *out_fp = fopen("tmp.c", "w");
-  if (out_fp == NULL) {
-    fprintf(stderr, "Unable to create file\n");
-    return -1;
-  }
-  generate_source(out_fp);
-  */
+
+  generate_source(script, out_fp);
 
   dealloc_layout(script);
 }

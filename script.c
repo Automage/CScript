@@ -88,7 +88,29 @@ int add_function(struct script_layout *script, char *content) {
  * Write to the file specified by argument the final 
  * C code to be compiled, as infered from the cscript.
  */
-int generate_source(struct script_layout *script, FILE *out) {
+int generate_source(struct script_layout *script, FILE *out_fp) {
+  if (out_fp == NULL) {
+    return -1;
+  }
+
+  // Write includes
+  for (int i = 0; i < script->n_includes; i++) {
+    fprintf(out_fp, "%s\n", script->includes[i]);
+  }
+
+  // Write defines
+  for (int i = 0; i < script->n_defines; i++) {
+    fprintf(out_fp, "%s\n", script->defines[i]);
+  }
+
+  // Write functions
+  for (int i = 0; i < script->n_functions; i++) {
+    fprintf(out_fp, "%s\n", script->functions[i]);
+  }
+
+  // Write main
+  fprintf(out_fp, "%s\n", script->main_body);
+
   return 0;
 }
 
