@@ -1,7 +1,9 @@
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "script.h"
 #include "parser.h"
+#include "debug.h"
 
 #define TMP_FILE_NAME "tmp.c"
 
@@ -21,15 +23,17 @@ int main(int argc, char *argv[]) {
 
   // Parse script
 
-  struct script_layout script;
-  layout_init(&script);
+  struct script_layout *script = malloc(sizeof(struct script_layout));
+  layout_init(script);
 
   if (parser_init() != 0) {
     fprintf(stderr, "Failed to initialize parser\n");
     return -1;
   }
 
-  parse_script(&script, script_fp);
+  parse_script(script, script_fp);
+
+  print_script(script);
 
   // Generate source file
   /*
@@ -40,4 +44,6 @@ int main(int argc, char *argv[]) {
   }
   generate_source(out_fp);
   */
+
+  dealloc_layout(script);
 }

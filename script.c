@@ -49,7 +49,7 @@ int add_define(struct script_layout *script, char *content) {
     // Reallocation
   }
 
-  script->defines[script->n_defines] = content;
+  script->defines[script->n_defines] = strdup(content);
   script->n_defines++;
   return 1;
 }
@@ -62,7 +62,7 @@ int add_include(struct script_layout *script, char *content) {
     // Reallocation
   }
 
-  script->includes[script->n_includes] = content;
+  script->includes[script->n_includes] = strdup(content);
   script->n_includes++;
   return 1;
 }
@@ -76,7 +76,7 @@ int add_function(struct script_layout *script, char *content) {
     // Reallocation
   }
 
-  script->functions[script->n_functions] = content;
+  script->functions[script->n_functions] = strdup(content);
   script->n_functions++;
   return 1;
 }
@@ -89,4 +89,35 @@ int add_function(struct script_layout *script, char *content) {
  */
 int generate_source(struct script_layout *script, FILE *out) {
   return 1;
+}
+
+/*
+ * Deallocate Layout
+ *
+ * Deallocate the memory used for a script_layout
+ */
+void dealloc_layout(struct script_layout *script) {
+  // Main
+  free(script->main_body);
+
+  // Defines
+  for (int i = 0; i < script->n_defines; i++) {
+    free(script->defines[i]);
+  }
+  free(script->defines);
+
+  // Includes
+  for (int i = 0; i < script->n_includes; i++) {
+    free(script->includes[i]);
+  }
+  free(script->includes);
+
+  // Functions
+  for (int i = 0; i < script->n_functions; i++) {
+    free(script->functions[i]);
+  }
+  free(script->functions);
+
+  // Script
+  free(script);
 }

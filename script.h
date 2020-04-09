@@ -27,5 +27,6 @@ int add_define(struct script_layout *, char *);
 int add_include(struct script_layout *, char *);
 int add_function(struct script_layout *, char *);
 int generate_source(struct script_layout *, FILE *);
+void dealloc_layout(struct script_layout *);
 
 #endif
