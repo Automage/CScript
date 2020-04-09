@@ -1,10 +1,12 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <regex.h>
+#include <string.h>
 
 #include "parser.h"
 
 #define MAX_LINE_SIZE 150
+#define FUNC_BUF_INIT_SIZE 150
 
 /*
  * Regex string constants
@@ -51,6 +53,21 @@ int parser_init() {
 }
 
 /*
+ * Helper: calculate bracket Sum
+ */
+static int calc_bracket_sum(char *line) {
+  int sum = 0;
+  for (int i = 0; i < strlen(line); i++) {
+    if (line[i] == '{') {
+      sum++;
+    } else if (line[i] == '}') {
+      sum--;
+    }
+  }
+  return sum;
+}
+
+/*
  * Parse Script
  *
  * Read in_file line by line to populate script, using regex
@@ -72,25 +89,59 @@ int parse_script(struct script_layout *script, FILE *in_file) {
   int function_lock = 0;
   int bracket_sum = 0;
   char line[MAX_LINE_SIZE];
-  char *func_content = malloc();
-  while (fscanf(in_file, "%[^\n]\n", line) == 1) {
-    // Bracket counting for functions
-    if (function_lock) {
+  int func_buf_size = FUNC_BUF_INIT_SIZE;
+  char *func_content = malloc(func_buf_size * sizeof(char));
+  func_content[0] = '\0';
 
-    } else if (regexec(&function_re, line, 0, NULL, 0) == 0) {
-      // Match function
-      printf("-----FUNC detected\n");
-      function_lock = 1;
-    } else if (regexec(&define_re, line, 0, NULL, 0) == 0) {
-      // Match defines
-      printf("-----DEF detected\n");
-      add_define(script, line);
-    } else if (regexec(&include_re, line, 0, NULL, 0) == 0) {
-      // Match includes
-      printf("-----INCLD detected\n");
-      add_include(script, line);
+  while (fscanf(in_file, "%[^\n]\n", line) == 1) {
+    // If not adding to a function
+    if (!function_lock) {
+      if (regexec(&function_re, line, 0, NULL, 0) == 0) {
+        // Match function
+        printf("-----FUNC detected\n");
+        function_lock = 1;
+      } else if (regexec(&define_re, line, 0, NULL, 0) == 0) {
+        // Match defines
+        printf("-----DEF detected\n");
+        add_define(script, line);
+      } else if (regexec(&include_re, line, 0, NULL, 0) == 0) {
+        // Match includes
+        printf("-----INCLD detected\n");
+        add_include(script, line);
+      } else {
+        // Main body
+
+      }
+    }
+
+    // Add line to function
+    if (function_lock) {
+      // Reallocation if func_buf is not large enough
+      if (strlen(line) + strlen(func_content) + 2 > func_buf_size) {
+        func_buf_size = func_buf_size * 2;
+        func_content = realloc(func_content, func_buf_size);
+      }
+      strcat(func_content, line);
+
+      // End function when bracket sum is 0
+      bracket_sum += calc_bracket_sum(line);
+      if (bracket_sum == 0) {
+        add_function(script, func_content);
+        func_buf_size = FUNC_BUF_INIT_SIZE;
+        func_content = realloc(func_content, func_buf_size);
+        func_content[0] = '\0';
+        function_lock = 0;
+      }
     }
   }
+  free(func_content);
 
-  return 1;
+  // Return error if bracket sum is not 0
+  if (bracket_sum != 0) {
+    fprintf(stderr, "Invalid function syntax");
+    return -1;
+  }
+
+  return 0;
 }
+
