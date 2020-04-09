@@ -109,7 +109,7 @@ int generate_source(struct script_layout *script, FILE *out_fp) {
   }
 
   // Write main
-  fprintf(out_fp, "%s\n", script->main_body);
+  fprintf(out_fp, "int main(int argc, char **argv) {\n%s\n}", script->main_body);
 
   return 0;
 }

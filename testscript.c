@@ -1,8 +1,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define MAX_DD 325
-#define MIN_DD -3222
+#define MIN -5
+#define MAX 100
 
 int a = 5;
 
@@ -10,22 +10,8 @@ for (int i = 0; i < 3; i++) {
   printf("Hello");
 }
 
-int add_layout(int a, int b) {
-  printf("gg");
-  return 0;
+int sum(int a, int b) {
+  return a + b;
 }
 
-void free_thought(int a, int b) {
-  printf("gg");
-  return;
-}
-
-char * neural_path(int a, int b) {
-  printf("gg");
-  return NULL;
-}
-
-
-for (int i = 0; i < 3; i++) {
-  a++;
-}
+printf("sum: %d\n", sum(MAX, MIN));

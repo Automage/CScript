@@ -98,15 +98,12 @@ int parse_script(struct script_layout *script, FILE *in_file) {
     if (!function_lock) {
       if (regexec(&function_re, line, 0, NULL, 0) == 0) {
         // Match function
-        printf("-----FUNC detected\n");
         function_lock = 1;
       } else if (regexec(&define_re, line, 0, NULL, 0) == 0) {
         // Match defines
-        printf("-----DEF detected\n");
         add_define(script, line);
       } else if (regexec(&include_re, line, 0, NULL, 0) == 0) {
         // Match includes
-        printf("-----INCLD detected\n");
         add_include(script, line);
       } else {
         // Main body
