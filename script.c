@@ -27,17 +27,18 @@ void layout_init(struct script_layout *script) {
   script->max_functions = DEFAULT_BUF_SIZE;
 }
 
-void append_main(struct script_layout *script, char *line) {
+int append_main(struct script_layout *script, char *line) {
   if (line == NULL) {
-    return;
+    return - 1;
   }
 
   if (script->main_size + strlen(line) >= script->max_main_buf) {
     // Reallocation
   }
 
-  strcpy(script->main_body, line);
+  strcat(script->main_body, line);
   script->main_size += strlen(line);
+  return 0;
 }
 
 int add_define(struct script_layout *script, char *content) {
@@ -51,7 +52,7 @@ int add_define(struct script_layout *script, char *content) {
 
   script->defines[script->n_defines] = strdup(content);
   script->n_defines++;
-  return 1;
+  return 0;
 }
 
 int add_include(struct script_layout *script, char *content) {
@@ -64,7 +65,7 @@ int add_include(struct script_layout *script, char *content) {
 
   script->includes[script->n_includes] = strdup(content);
   script->n_includes++;
-  return 1;
+  return 0;
 }
 
 int add_function(struct script_layout *script, char *content) {
@@ -78,7 +79,7 @@ int add_function(struct script_layout *script, char *content) {
 
   script->functions[script->n_functions] = strdup(content);
   script->n_functions++;
-  return 1;
+  return 0;
 }
 
 /*
@@ -88,7 +89,7 @@ int add_function(struct script_layout *script, char *content) {
  * C code to be compiled, as infered from the cscript.
  */
 int generate_source(struct script_layout *script, FILE *out) {
-  return 1;
+  return 0;
 }
 
 /*

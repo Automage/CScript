@@ -83,7 +83,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
   // and } is -1).
   //
   // This is a naive implementation which does not catch unmatched bracket
-  // seqeunces such as {{}}}{ - although this is invalid C syntax and will
+  // seqeunces such as '{{}}}{' - although this is invalid C syntax and will
   // be detected by the compiler.
 
   int function_lock = 0;
@@ -110,7 +110,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
         add_include(script, line);
       } else {
         // Main body
-
+        append_main(script, line);
       }
     }
 
