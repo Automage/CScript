@@ -24,6 +24,11 @@ int main(int argc, char *argv[]) {
   struct script_layout script;
   layout_init(&script);
 
+  if (parser_init() != 0) {
+    fprintf(stderr, "Failed to initialize parser\n");
+    return -1;
+  }
+
   parse_script(&script, script_fp);
 
   // Generate source file

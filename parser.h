@@ -3,6 +3,7 @@
 
 #include "script.h"
 
+int parser_init(void);
 int parse_script(struct script_layout *, FILE *);
 
 #endif
