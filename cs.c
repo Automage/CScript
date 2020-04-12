@@ -52,6 +52,10 @@ int main(int argc, char *argv[]) {
   generate_source(script, out_fp);
   dealloc_layout(script);
 
+  // Close files
+  fclose(script_fp);
+  fclose(out_fp);
+
   // Compile generated C file
 
   int ret = fork();
@@ -59,10 +63,13 @@ int main(int argc, char *argv[]) {
     perror("fork");
     return -1;
   } else if (ret == 0) { // Child process
-    execlp("gcc", "gcc", "-o", EXEC_NAME, TMP_FILE_NAME, (char *) NULL);
-    _exit(-1);
+    //execlp("/usr/bin/gcc", "gcc", TMP_FILE_NAME, NULL);
+    execlp("/usr/bin/gcc", "gcc", "-o", EXEC_NAME, TMP_FILE_NAME, (char *) NULL);
+    //system("gcc -o cscript tmp.c");
+    _exit(0);
   } else { // Parent process
     waitpid(ret, NULL, 0);
+    printf("exited");
   }
 
   // Execute generate executable

@@ -1,4 +1,4 @@
-all: cs
+ll: cs
 
 cs: cs.o script.o parser.o debug.o
 	gcc -g -Wall -Werror -o cs cs.o script.o parser.o debug.o
