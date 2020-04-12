@@ -87,6 +87,10 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "Failed to cleanup temporary files\n");
     return -1;
   }
+  if (remove(TMP_FILE_NAME) != 0) {
+    fprintf(stderr, "Failed to cleanup temporary files\n");
+    return -1;
+  }
 
   return 0;
 }
