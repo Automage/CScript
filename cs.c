@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 
   // Debug printing
 
-  print_script(script);
+  //print_script(script);
 
   // Generate source file
 
@@ -63,17 +63,14 @@ int main(int argc, char *argv[]) {
     perror("fork");
     return -1;
   } else if (ret == 0) { // Child process
-    //execlp("/usr/bin/gcc", "gcc", TMP_FILE_NAME, NULL);
     execlp("/usr/bin/gcc", "gcc", "-o", EXEC_NAME, TMP_FILE_NAME, (char *) NULL);
-    //system("gcc -o cscript tmp.c");
     _exit(0);
   } else { // Parent process
     waitpid(ret, NULL, 0);
-    printf("exited");
   }
 
-  // Execute generate executable
-/*
+  // Execute generated executable
+
   ret = fork();
   if (ret == -1) {
     perror("fork");
@@ -90,6 +87,6 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "Failed to cleanup temporary files\n");
     return -1;
   }
-*/
+
   return 0;
 }
