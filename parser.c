@@ -13,7 +13,7 @@
  */
 static const char DEFINE_REGEX[] = "^#define .*$";
 static const char INCLUDE_REGEX[] = "^#include .*$";
-static const char SHEBANG_REGEX[] = "^!#.*$";
+static const char SHEBANG_REGEX[] = "^#!.*$";
 //const char FUNCTION_REGEX[] = "^\\w+ \\w+\\((( *\\w+ \\w+)?(, *\\w+ (\\w|\\[|\\])+)*)?\\) *\\{?$";
 //const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
 // TODO: MAKE MACOS COMPATIBLE
