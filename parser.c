@@ -13,6 +13,7 @@
  */
 static const char DEFINE_REGEX[] = "^#define .*$";
 static const char INCLUDE_REGEX[] = "^#include .*$";
+static const char SHEBANG_REGEX[] = "^!#.*$";
 //const char FUNCTION_REGEX[] = "^\\w+ \\w+\\((( *\\w+ \\w+)?(, *\\w+ (\\w|\\[|\\])+)*)?\\) *\\{?$";
 //const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+ (\\w|\\*)+\\((( *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)?(, *(\\w|\\[|\\]|\\*)+ (\\w|\\[|\\]|\\*)+)*)?\\) *\\{?$";
 // TODO: MAKE MACOS COMPATIBLE
@@ -23,6 +24,7 @@ static const char FUNCTION_REGEX[] = "^(\\w|\\[|\\]|\\*)+[ *]+(\\w|\\*)+\\((( *(
  */
 static regex_t define_re;
 static regex_t include_re;
+static regex_t shebang_re;
 static regex_t function_re;
 
 
@@ -41,6 +43,11 @@ int parser_init() {
 
   // Include regex
   if (regcomp(&include_re, INCLUDE_REGEX, REG_EXTENDED | REG_NOSUB) == -1) {
+    return -1;
+  }
+
+  // Shebang regex
+  if (regcomp(&shebang_re, SHEBANG_REGEX, REG_EXTENDED | REG_NOSUB) == -1) {
     return -1;
   }
 
@@ -94,6 +101,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
   func_content[0] = '\0';
 
   while (fscanf(in_file, "%[^\n]\n", line) == 1) {
+    printf("%s\n", line);
     // If not adding to a function
     if (!function_lock) {
       if (regexec(&function_re, line, 0, NULL, 0) == 0) {
@@ -105,6 +113,9 @@ int parse_script(struct script_layout *script, FILE *in_file) {
       } else if (regexec(&include_re, line, 0, NULL, 0) == 0) {
         // Match includes
         add_include(script, line);
+      } else if (regexec(&shebang_re, line, 0, NULL, 0) == 0) {
+        // Match shebang
+        // Do nothing
       } else {
         // Main body
         append_main(script, line);
