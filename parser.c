@@ -101,7 +101,7 @@ int parse_script(struct script_layout *script, FILE *in_file) {
   func_content[0] = '\0';
 
   while (fscanf(in_file, "%[^\n]\n", line) == 1) {
-    printf("%s\n", line);
+    //printf("%s\n", line);
     // If not adding to a function
     if (!function_lock) {
       if (regexec(&function_re, line, 0, NULL, 0) == 0) {
