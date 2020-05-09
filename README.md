@@ -1,6 +1,6 @@
 # CScript
 
-An interpreter for 'CScripts' which can be executed directly in your shell.
+An interpreter for 'C scripts' which can be executed directly in your shell.
 
 ## Installation
 
@@ -8,9 +8,9 @@ Clone the repository and run the Makefile. Move the `cs` executable to your bin 
 
 ## Usage
 
-CScripts are designed to be similar in use to bash scripts, with the exception of using the C programming language. The syntax of these scripts have been modified from standard C syntax to best serve their purpose of creating quick and concise tools, while being fimiliar enough such that there is no extra overhead in getting accustomed to writing them. 
+C scripts are designed to be similar in use to bash scripts, with the exception of using the C programming language. The syntax of these scripts have been modified from standard C syntax to best serve their purpose of creating quick and concise tools, while being fimiliar enough such that there is no extra overhead in getting accustomed to writing them. 
 
-The anatomy of a CScript is as follows:
+The anatomy of a C script is as follows:
 
 ```
 #!<path-to-cs-exec>
@@ -34,4 +34,4 @@ Notice how there is no need for a main function declaration, only the code withi
 
 Note that if function A calls function B, function B should be placed before function A.  
 
-By including a shebang at the top of the script and ensuring executable permissions, the CScript may be executed just as you would execute a bash script. An example CScript can be found [here](script_test).
+By including a shebang at the top of the script and ensuring executable permissions, the C script may be executed just as you would execute a bash script. An example script can be found [here](script_test).
